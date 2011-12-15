@@ -1,4 +1,4 @@
-#define ROM_WIDTH int16_t
+#define ROM_WIDTH uint32_t
 
 typedef enum {
     // Next microcode loaded from decoder
@@ -19,9 +19,15 @@ typedef enum {
      * RD - direction to read from if writing, 0=above, 1=down
      * RD2 and W3 apply to all the registers below themselves */
     W0, RD0,
-    W1, RD1,
+    W1, RD1, // 8
     W2, RD2,
     W3,
+
+    /* BLU function selection
+     * Macros can be used to make these more obvious */
+    BLU0,
+    BLU1,
+    BLU2,
 } ControlLine;
 
 int control_line(Afternoon1*, ControlLine);
