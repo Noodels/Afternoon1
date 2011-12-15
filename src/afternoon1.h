@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 /* 
  * The struct for an Afternoon1 processor, stores all local registers
  */
@@ -10,4 +12,9 @@ typedef struct
                             // C(3) does not cause looping
 
     uint8_t *stackptr; // stack pointer, 4 bits per piece
+    unsigned int stack_size; // size of stack, minimum 4
+
+    /* BUSES - Need to be updated before computation occurs */
+    uint8_t main_data_input; // 4 bits used
+    uint8_t main_data_output; // 4 bits used
 } Afternoon1;

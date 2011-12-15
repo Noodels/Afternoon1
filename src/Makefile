@@ -1,6 +1,6 @@
 CC=gcc
 EXECNAME = afternoon1
-OBJ = main.o cache.o
+OBJ = main.o microcode.o
 
 all: afternoon1
 

@@ -45,7 +45,7 @@ void compute_microcode(Afternoon1 *state, Afternoon1 *next)
     int conditional;
 
     // EXECUTE - load microinstruction from decoder
-    if control_line(state, EXECUTE)
+    if (control_line(state, EXECUTE))
         next->MICROCODE = DECODER[state->program_cache[0]];
     else
     {
