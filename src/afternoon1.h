@@ -16,5 +16,5 @@ typedef struct
 
     /* BUSES - Need to be updated before computation occurs */
     uint8_t main_data_input; // 4 bits used
-    uint8_t main_data_output; // 4 bits used
+    // uint8_t main_databus; // Not used, use stackptr[0]
 } Afternoon1;
