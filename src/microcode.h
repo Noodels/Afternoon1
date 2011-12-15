@@ -34,21 +34,21 @@ typedef enum {
     /* Program counter control lines */
     ROTATEADDRESS,
     PUTADDRESS,
-    SENDADDRESSPC,
+    SENDADDRESSPC, // illegal without SETWRITE or SETREAD
 
     /* Cache control lines */
     FIFO,
-    SENDADDRESS,
+    //SENDADDRESS, // can be assumed when read/write are set
     STORECACHE,
 
     /* Program cache control lines */
-    CYCLECODECACHE, // 24
-    STORECODE,
+    CYCLECODECACHE,
+    STORECODE, // 24
     PUTIMMEDIATE,
 
     /* Memory IO */
     SETWRITE,
-    SETREAD, // 28 - total
+    SETREAD, // 27 - total
 } ControlLine;
 
 int control_line(Afternoon1*, ControlLine);

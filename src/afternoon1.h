@@ -7,7 +7,6 @@ typedef struct
 {
     uint8_t MICROCODE; // Microcode register (6 bits)
     uint8_t program_cache[4]; // Program cache, uses 5 bits per piece
-    uint8_t memory_request; // uses 2 bits
     uint8_t carry_register; // uses 5 bits, C(-1) to C(3)
                             // C(3) does not cause looping
 
@@ -17,4 +16,13 @@ typedef struct
     /* BUSES - Need to be updated before computation occurs */
     uint8_t main_data_input; // 4 bits used
     // uint8_t main_databus; // Not used, use stackptr[0]
+    
+    /* Memory IO */
+    uint16_t current_address;
+    uint8_t memory_request; // uses 2 bits, mr0 - write, mr1 - read
+
+    uint16_t *cache;
+    unsigned int cache_size;
+
+    uint16_t program_counter;
 } Afternoon1;
