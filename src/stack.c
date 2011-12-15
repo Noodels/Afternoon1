@@ -37,7 +37,7 @@ void compute_stack(Afternoon1 *state, Afternoon1 *next)
         { // from "below"
             for (i=4; i<(state->stack_size); i++)
                 next->stackptr[i-1] = state->stackptr[i];
-            stackptr[i-1] = 0;
+            next->stackptr[i-1] = 0;
         }
         else
         { // from "above"

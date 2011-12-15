@@ -49,7 +49,7 @@ void compute_blu(Afternoon1 *state, Afternoon1 *next)
 
 uint8_t blu_result(Afternoon1 *state)
 {
-    switch (blue_getfunction(state))
+    switch (blu_getfunction(state))
     {
         case 0: // nop
             return 0;
