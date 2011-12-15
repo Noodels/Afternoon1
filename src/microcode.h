@@ -23,11 +23,32 @@ typedef enum {
     W2, RD2,
     W3,
 
+    LOOPBACK0, LOOPBACK1,
+
     /* BLU function selection
      * Macros can be used to make these more obvious */
     BLU0,
     BLU1,
-    BLU2,
+    BLU2, // 16
+
+    /* Program counter control lines */
+    ROTATEADDRESS,
+    PUTADDRESS,
+    SENDADDRESSPC,
+
+    /* Cache control lines */
+    FIFO,
+    SENDADDRESS,
+    STORECACHE,
+
+    /* Program cache control lines */
+    CYCLECODECACHE, // 24
+    STORECODE,
+    PUTIMMEDIATE,
+
+    /* Memory IO */
+    SETWRITE,
+    SETREAD, // 28 - total
 } ControlLine;
 
 int control_line(Afternoon1*, ControlLine);
