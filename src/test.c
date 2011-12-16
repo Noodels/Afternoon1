@@ -18,6 +18,7 @@ int test_firstmicrocodes(Afternoon1 *state, Afternoon1 *next)
     }
 
     afternoon1_step(next, state);
+
     if (state->MICROCODE == 0x03)
         printf("[PASS] Microcode branches through a sendaddress\n");
     else

@@ -11,7 +11,11 @@ void compute_stack(Afternoon1 *state, Afternoon1 *next)
         if (control_line(state, RD0))
             next->stackptr[0] = state->stackptr[1]; // from "below"
         else
+        {
             next->stackptr[0] = state->main_data_input; // from "above"
+            if (control_line(state, SETBUSBIT))
+                next->stackptr[0] |= 0x01;
+        }
     }
 
     if (control_line(state, W1))

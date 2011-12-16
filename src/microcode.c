@@ -8,6 +8,16 @@
 #define STORECARRY   LINE(BLUCARRY)|LINE(BLU1)
 #define RESTORECARRY LINE(BLUCARRY)|LINE(BLU0)
 
+// Conditional operations
+#define BRANCH_INSTRUCTIONREADY LINE(COND0)
+#define BRANCH_MEMORYREADY      LINE(COND1)
+#define BRANCH_CARRYREGISTER    LINE(COND0)|LINE(COND1)
+#define BRANCH_ONZERO           LINE(COND2)
+#define BRANCH_ONACKNOWLEDGE    LINE(COND2)|LINE(COND0)
+
+// Operations on the stack
+#define PUTONSTACK LINE(W0)
+
 /* Control ROM
  * Determines control lines within the processor
  * Bits indicate each control line, individual values are mapped to
@@ -16,7 +26,12 @@
  */
 const ROM_WIDTH CONTROL_ROM[64] =
 {
-    PERFORMCARRY,
+    PERFORMCARRY | BRANCH_INSTRUCTIONREADY, // loading memory
+    PERFORMCARRY, // executing instruction
+
+    /* Load program cache 0x02 */
+    LINE(SENDADDRESSPC) | LINE(SETREAD) | BRANCH_ONACKNOWLEDGE,
+    LINE(ROTATEADDRESS) | STORECARRY | PUTONSTACK,
 };
 
 /* The decoder
@@ -45,7 +60,7 @@ int control_line(Afternoon1 *state, ControlLine line)
 {
     ROM_WIDTH test = 1;
     
-    if (state->MICROCODE & (test << line))
+    if (CONTROL_ROM[state->MICROCODE] & (test << line))
         return 1;
     else
         return 0;

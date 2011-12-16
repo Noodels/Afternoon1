@@ -52,7 +52,10 @@ typedef enum {
 
     /* Carry Register Control */
     BLUCARRY, // BLU0,BLU1,BLU2 control what carry operation should occur
-    // 28 total
+
+    /* Lowest endian bus line assertion */
+    SETBUSBIT,
+    // 29 total
 } ControlLine;
 
 int control_line(Afternoon1*, ControlLine);
