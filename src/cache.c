@@ -19,3 +19,11 @@ void compute_codecache(Afternoon1 *state, Afternoon1 *next)
         next->memory_request |= 0x04; // ACKnowledge
     }
 }
+
+uint8_t codecache_result(Afternoon1 *state)
+{
+    if (control_line(state, PUTIMMEDIATE))
+        return (state->program_cache[0]);
+    else
+        return 0;
+}

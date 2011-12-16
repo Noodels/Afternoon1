@@ -46,3 +46,16 @@ void compute_stack(Afternoon1 *state, Afternoon1 *next)
         }
     }
 }
+
+uint8_t stack_result(Afternoon1 *state)
+{
+    uint8_t t = 0;
+    
+    if (control_line(state, LOOPBACK0))
+        t |= state->stackptr[1];
+    
+    if (control_line(state, LOOPBACK1))
+        t |= state->stackptr[2];
+
+    return t;
+}

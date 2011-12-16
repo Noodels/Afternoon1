@@ -29,6 +29,14 @@ void compute_cache(Afternoon1 *state, Afternoon1 *next)
     next->DATAOUT = state->cache[(state->cache_size-1)];
 }
 
+uint8_t cache_result(Afternoon1 *state)
+{
+    if (control_line(state, FIFO) && (state->stackptr[1] < state->cache_size))
+        return (state->cache[state->stackptr[1]]) >> 12;
+    else
+        return 0;
+}
+
 void compute_memaccess(Afternoon1 *state, Afternoon1 *next)
 {
     uint8_t t = (control_line(state, SETREAD) << 1)
