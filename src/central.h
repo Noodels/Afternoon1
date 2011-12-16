@@ -1,7 +1,8 @@
 #include "afternoon1.h"
 
-/* Initialises to default values */
-int afternoon1_setup(Afternoon1*);
+/* Initialises to default values
+ * Requires a target, a stacksize, and a cache size, in that order*/
+int afternoon1_setup(Afternoon1*, int, int);
 void afternoon1_free(Afternoon1*); // deinitialise
 
 /* Wrapper for all the afternoon1 computation and bus control
