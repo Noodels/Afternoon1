@@ -19,10 +19,16 @@ typedef struct
     
     /* Memory IO */
     uint16_t current_address;
-    uint8_t memory_request; // uses 2 bits, mr0 - write, mr1 - read
+    uint8_t memory_request; // uses 2 bits
+                            // 00 - no operations
+                            // 01 - write
+                            // 10 - read
+                            // 11 - acknowledge
 
     uint16_t *cache;
     unsigned int cache_size;
 
     uint16_t program_counter;
+
+    uint16_t DATAIN, DATAOUT; // input and output to the processor
 } Afternoon1;

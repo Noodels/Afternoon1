@@ -84,6 +84,13 @@ void compute_microcode(Afternoon1 *state, Afternoon1 *next)
                 if (state->stackptr[0] == 0)
                     next->MICROCODE |= 0x01;
                 break;
+            case 5:
+                // Sendaddr was triggered, ensure memory ready
+                // Branches to XXXXX1 if ready
+                next->MICROCODE |= 0x01;
+                if ((state->memory_request & 0x03) == 0x03)
+                    next->MICROCODE &= 0xFE;
+                break;
             otherwise:
                 // Assume value is 0, illegal values could be printed
                 break;
