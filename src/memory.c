@@ -4,8 +4,16 @@
 void compute_programcounter(Afternoon1 *state, Afternoon1 *next)
 {
     if (control_line(state, ROTATEADDRESS) || control_line(state, PUTADDRESS))
-        next->program_counter = (state->program_counter << 4)
-            | (state->stackptr[0]);
+        next->program_counter = (state->program_counter >> 4)
+            | ((uint16_t)state->stackptr[0] << 12);
+}
+
+uint8_t pc_result(Afternoon1 *state)
+{
+    if (control_line(state, ROTATEADDRESS))
+        return (state->program_counter & 0x000F);
+    else
+        return 0;
 }
 
 void compute_cache(Afternoon1 *state, Afternoon1 *next)
