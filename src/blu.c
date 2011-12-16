@@ -26,22 +26,33 @@ void compute_blu(Afternoon1 *state, Afternoon1 *next)
     uint8_t input = (state->stackptr[0] & 0x0F); // assert 4 bits
 
     // Note that this function is only concerned with next->carry_register
-    switch (blu_getfunction(state))
+    if (control_line(state, BLUCARRY))
     {
-        case 2:
-            // left shift
-            next->carry_register = (input << 1) & 0x10;
-            break;
-        case 3:
-            // right shift
-            next->carry_register = (input << 4) & 0x10;
-            break;
-        case 6:
-            // xor and observe carries
-            next->carry_register |= (input ^ 0x0F) << 1;
-            break;
-        otherwise:
-            break;
+        next->carry_register = (input<<1) & 0x10;
+        if (control_line(state, BLU0))
+            next->carry_register |= (input >> 5) & 0x01;
+        if (control_line(state, BLU1))
+            next->carry_register |= (input << 5) & 0x20;
+    }
+    else
+    {
+        switch (blu_getfunction(state))
+        {
+            case 2:
+                // left shift
+                next->carry_register = (input << 1) & 0x10;
+                break;
+            case 3:
+                // right shift
+                next->carry_register = (input << 4) & 0x10;
+                break;
+            case 6:
+                // xor and observe carries
+                next->carry_register |= (input ^ 0x0F) << 1;
+                break;
+            otherwise:
+                break;
+        }
     }
 
     // Assertion: next->carry_register is now set and correct

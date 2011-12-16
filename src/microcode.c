@@ -1,6 +1,13 @@
 #include "afternoon1.h"
 #include "microcode.h"
 
+#define LINE(n) (1 << n)
+
+// Carry operations
+#define PERFORMCARRY LINE(BLUCARRY)
+#define STORECARRY   LINE(BLUCARRY)|LINE(BLU1)
+#define RESTORECARRY LINE(BLUCARRY)|LINE(BLU0)
+
 /* Control ROM
  * Determines control lines within the processor
  * Bits indicate each control line, individual values are mapped to
@@ -9,6 +16,7 @@
  */
 const ROM_WIDTH CONTROL_ROM[64] =
 {
+    PERFORMCARRY,
 };
 
 /* The decoder
@@ -25,6 +33,9 @@ const uint8_t MICROSEQUENCE[64] =
 {
     0x02, // Load program cache
     0xFF, // Execute instruction
+
+    /* Load program cache 0x02 */
+    0x02, // Branches to 0x03 when address sent
 };
 
 /* CONTROL ROM
