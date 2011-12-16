@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdlib.h>
 
 #include "afternoon1.h"
 #include "stack.h"
