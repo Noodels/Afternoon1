@@ -5,7 +5,7 @@ OBJ = main.o microcode.o stack.o blu.o memory.o
 all: afternoon1
 
 afternoon1: $(OBJ)
-	$(CC) -o afternoon1 $(OBJ)
+	$(CC) -o $(EXECNAME) $(OBJ)
 
 clean:
 	rm -f *.o
