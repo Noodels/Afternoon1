@@ -3,7 +3,7 @@
 #include "afternoon1.h"
 #include "stack.h"
 #include "memory.h"
-#include "microcode.h"
+//#include "microcode.h"
 #include "cache.h"
 #include "blu.h"
 
@@ -54,13 +54,12 @@ void afternoon1_databus(Afternoon1 *state)
         | pc_result(state)
         | codecache_result(state)
         | blu_result(state)
-        | control_line(state, SETBUSBIT)
+//        | control_line(state, SETBUSBIT)
         ;
 }
 
 void afternoon1_step(Afternoon1 *state, Afternoon1 *next)
-{
-    // Assertion: Main data bus is set up and ready
+{ 
     compute_blu(state, next);
     compute_codecache(state, next);
     compute_programcounter(state, next);

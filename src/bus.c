@@ -1,4 +1,4 @@
-#include "afternoon1."
+#include "afternoon1.h"
 
 #include "blu.h"
 #include "cache.h"
@@ -14,6 +14,6 @@ uint8_t bus_result(Afternoon1 *state)
             | pc_result(state)
             | cache_result(state)
             | stack_result(state)
-            | (uint8_t)(control_line(state, SETBUSBIT));A
+            | (uint8_t)(control_line(state, SETBUSBIT))
            );
 }

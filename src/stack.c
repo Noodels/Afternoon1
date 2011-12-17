@@ -1,5 +1,5 @@
 #include "afternoon1.h"
-//#include "microcode.h"
+#include "microcode.h"
 #include "bus.h"
 #include "stack.h"
 
