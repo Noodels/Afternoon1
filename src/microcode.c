@@ -16,7 +16,8 @@
 #define BRANCH_ONACKNOWLEDGE    LINE(COND2)|LINE(COND0)
 
 // Operations on the stack
-#define PUTONSTACK LINE(W0)
+#define PUTONSTACK  LINE(W0)|LINE(W1)|LINE(W2)|LINE(W3)
+#define STACKROTATE LINE(LOOPBACK1)|LINE(W0)|LINE(W1)|LINE(W2)
 
 /* Control ROM
  * Determines control lines within the processor
@@ -32,6 +33,9 @@ const ROM_WIDTH CONTROL_ROM[64] =
     /* Load program cache 0x02 */
     LINE(SENDADDRESSPC) | LINE(SETREAD) | BRANCH_ONACKNOWLEDGE,
     LINE(ROTATEADDRESS) | STORECARRY | PUTONSTACK,
+    PUTONSTACK,
+    PUTONSTACK | LINE(SETBUSBIT),
+    STACKROTATE,
 };
 
 /* The decoder
@@ -51,6 +55,9 @@ const uint8_t MICROSEQUENCE[64] =
 
     /* Load program cache 0x02 */
     0x02, // Branches to 0x03 when address sent
+    0x04,
+    0x05,
+    0x06,
 };
 
 /* CONTROL ROM

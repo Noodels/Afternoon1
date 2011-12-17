@@ -7,6 +7,7 @@ int test_firstmicrocodes(Afternoon1 *state, Afternoon1 *next)
     afternoon1_setup(state, 32, 8);
     afternoon1_setup(next, 32, 8);
 
+    afternoon1_databus(state);
     afternoon1_step(state, next);
 
     if (next->MICROCODE == 0x02)
@@ -17,13 +18,29 @@ int test_firstmicrocodes(Afternoon1 *state, Afternoon1 *next)
         return 1;
     }
 
+    afternoon1_databus(next);
     afternoon1_step(next, state);
+    printf("Databus: 0x%x\n", state->main_data_input);
+    printf("SETBUSBIT was: %d\n", control_line(next, SETBUSBIT));
 
     if (state->MICROCODE == 0x03)
         printf("[PASS] Microcode branches through a sendaddress\n");
     else
     {
         printf("[FAIL] Microcode does not branch through sendaddress\n");
+        return 1;
+    }
+
+    if (state->stackptr[0] == 1
+            && state->stackptr[1] == 0
+            && state->stackptr[2] == 0)
+        printf("[PASS] Basic stack insertion\n");
+    else
+    {
+        printf("[FAIL] Basic stack insertion: %d %d %d\n",
+                state->stackptr[0],
+                state->stackptr[1],
+                state->stackptr[2]);
         return 1;
     }
 

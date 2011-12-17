@@ -3,6 +3,7 @@
 #include "afternoon1.h"
 #include "stack.h"
 #include "memory.h"
+#include "microcode.h"
 #include "cache.h"
 #include "blu.h"
 
@@ -53,6 +54,7 @@ void afternoon1_databus(Afternoon1 *state)
         | pc_result(state)
         | codecache_result(state)
         | blu_result(state)
+        | control_line(state, SETBUSBIT)
         ;
 }
 

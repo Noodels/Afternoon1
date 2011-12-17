@@ -2,6 +2,8 @@
 #include "microcode.h"
 #include "stack.h"
 
+#include <stdio.h>
+
 void compute_stack(Afternoon1 *state, Afternoon1 *next)
 {
     unsigned int i;
@@ -13,8 +15,12 @@ void compute_stack(Afternoon1 *state, Afternoon1 *next)
         else
         {
             next->stackptr[0] = state->main_data_input; // from "above"
+            printf("DEBUG: Stackptr added to\n");
             if (control_line(state, SETBUSBIT))
+            {
+                printf("DEBUG: Stackptr set bit 0\n");
                 next->stackptr[0] |= 0x01;
+            }
         }
     }
 
