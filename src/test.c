@@ -44,6 +44,22 @@ int test_firstmicrocodes(Afternoon1 *state, Afternoon1 *next)
         return 1;
     }
 
+    afternoon1_step(next, state);
+
+    if (state->stackptr[0] == 0
+            && state->stackptr[1] == 1
+            && state->stackptr[2] == 0)
+        printf("[PASS] Stack rotation\n");
+    else
+    {
+        printf(
+"[FAIL] Stack rotation\n[    ] Intended: 0, 1, 0\n[    ] Got     : %d, %d, %d\n",
+                state->stackptr[0],
+                state->stackptr[1],
+                state->stackptr[2]);
+        return 1;
+    }
+
     // Test passed
     printf("[    ] End of section: first microcodes\n");
     return 0;
@@ -51,12 +67,13 @@ int test_firstmicrocodes(Afternoon1 *state, Afternoon1 *next)
 
 int test_allcases(Afternoon1 *p1, Afternoon1 *p2)
 {
+    int r;
     if (test_firstmicrocodes(p1, p2))
-        return 1;
+        r = 1;
     afternoon1_free(p1);
     afternoon1_free(p2);
 
-    return 0;
+    return r;
 }
 
 int main(void)

@@ -17,14 +17,12 @@ int afternoon1_setup(Afternoon1 *new, int stacksize, int cachesize)
 
     new->carry_register = 0;
 
-    free(new->stackptr);
     new->stackptr = calloc(1, stacksize);
     new->stack_size = stacksize;
       
     new->current_address = 0;
     new->memory_request = 0;
 
-    free(new->cache);
     new->cache = calloc(2, cachesize); // 1 - 16
     new->cache_size = cachesize;
 
@@ -41,9 +39,6 @@ int afternoon1_setup(Afternoon1 *new, int stacksize, int cachesize)
 
 int afternoon1_ghostcopy(Afternoon1 *src, Afternoon1 *dst)
 {
-    free(dst->cache);
-    free(dst->stackptr);
-
     dst->stack_size = src->cache_size;
     dst->stackptr = calloc(1, src->stack_size);
 
