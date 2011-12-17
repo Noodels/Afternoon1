@@ -1,11 +1,15 @@
 #include "afternoon1.h"
 #include "microcode.h"
 
+#include <string.h>
+
 void compute_programcounter(Afternoon1 *state, Afternoon1 *next)
 {
     if (control_line(state, ROTATEADDRESS) || control_line(state, PUTADDRESS))
         next->program_counter = (state->program_counter >> 4)
             | ((uint16_t)state->stackptr[0] << 12);
+    else
+        next->program_counter = state->program_counter;
 }
 
 uint8_t pc_result(Afternoon1 *state)
@@ -18,6 +22,9 @@ uint8_t pc_result(Afternoon1 *state)
 
 void compute_cache(Afternoon1 *state, Afternoon1 *next)
 {
+    /* Preserve states, later operations overwrite for changes */
+    memcpy(next->cache, state->cache, sizeof(uint16_t) * next->cache_size);
+
     /* Operate the FIFO */
     if (control_line(state, FIFO) &&
             state->stackptr[1] < state->cache_size) // check cache range
@@ -31,7 +38,7 @@ void compute_cache(Afternoon1 *state, Afternoon1 *next)
     {
         if (state->stackptr[1] < state->cache_size) // check cache range
             next->cache[state->stackptr[1]] = state->DATAIN;
-        next->memory_request |= 3; // acknowledge
+        //next->memory_request |= 3; // acknowledge // moved
     }
     /* Operate memory output */
     next->DATAOUT = state->cache[(state->cache_size-1)];
@@ -50,7 +57,9 @@ void compute_memaccess(Afternoon1 *state, Afternoon1 *next)
     uint8_t t = (control_line(state, SETREAD) << 1)
         | control_line(state, SETWRITE);
 
-    next->memory_request |= t;
+    if ((control_line(state, STORECACHE)) || control_line(state, STORECODE))
+        t |= 0x03; // ACKNOWLEDGE memory read
+    next->memory_request = state->memory_request | t;
     if (t)
     {
         if (control_line(state, SENDADDRESSPC))
