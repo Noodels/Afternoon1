@@ -16,6 +16,8 @@ void compute_stack(Afternoon1 *state, Afternoon1 *next)
         else
             next->stackptr[0] = bus_result(state);
     }
+    else
+        next->stackptr[0] = state->stackptr[0];
 
     if (control_line(state, W1))
     {
@@ -24,6 +26,8 @@ void compute_stack(Afternoon1 *state, Afternoon1 *next)
         else
             next->stackptr[1] = state->stackptr[0]; // from "above"
     }
+    else
+        next->stackptr[1] = state->stackptr[1];
 
     if (control_line(state, W2))
     {
@@ -32,6 +36,8 @@ void compute_stack(Afternoon1 *state, Afternoon1 *next)
         else
             next->stackptr[2] = state->stackptr[1]; // from "above"
     }
+    else
+        next->stackptr[2] = state->stackptr[2];
 
     // Uses RD2
     if (control_line(state, W3))
@@ -47,6 +53,11 @@ void compute_stack(Afternoon1 *state, Afternoon1 *next)
             for (i=3; i<(state->stack_size); i++)
                 next->stackptr[i] = state->stackptr[i-1];
         }
+    }
+    else
+    {
+        for (i=3; i<(state->stack_size); i++)
+            next->stackptr[i] = state->stackptr[i];
     }
 }
 
