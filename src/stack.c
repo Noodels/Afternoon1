@@ -1,5 +1,6 @@
 #include "afternoon1.h"
-#include "microcode.h"
+//#include "microcode.h"
+#include "bus.h"
 #include "stack.h"
 
 #include <stdio.h>
@@ -14,13 +15,14 @@ void compute_stack(Afternoon1 *state, Afternoon1 *next)
             next->stackptr[0] = state->stackptr[1]; // from "below"
         else
         {
-            next->stackptr[0] = state->main_data_input; // from "above"
+            next->stackptr[0] = bus_result(state);
+            //next->stackptr[0] = state->main_data_input; // from "above"
             printf("DEBUG: Stackptr added to\n");
-            if (control_line(state, SETBUSBIT))
+            /*if (control_line(state, SETBUSBIT))
             {
                 printf("DEBUG: Stackptr set bit 0\n");
                 next->stackptr[0] |= 0x01;
-            }
+            }*/
         }
     }
 
