@@ -51,6 +51,8 @@ void compute_blu(Afternoon1 *state, Afternoon1 *next)
                 next->carry_register |= (input ^ 0x0F) << 1;
                 break;
             otherwise:
+                // no change, preserve state
+                next->carry_register = state->carry_register;
                 break;
         }
     }
