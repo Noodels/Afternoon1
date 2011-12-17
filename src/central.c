@@ -20,9 +20,7 @@ int afternoon1_setup(Afternoon1 *new, int stacksize, int cachesize)
 
     new->stackptr = calloc(1, stacksize);
     new->stack_size = stacksize;
-    
-    new->main_data_input = 0;
-    
+      
     new->current_address = 0;
     new->memory_request = 0;
 
@@ -44,18 +42,6 @@ void afternoon1_free(Afternoon1 *scrap)
 {
     free(scrap->cache);
     free(scrap->stackptr);
-}
-
-void afternoon1_databus(Afternoon1 *state)
-{
-    state->main_data_input = 0
-        | stack_result(state)
-        | cache_result(state)
-        | pc_result(state)
-        | codecache_result(state)
-        | blu_result(state)
-//        | control_line(state, SETBUSBIT)
-        ;
 }
 
 void afternoon1_step(Afternoon1 *state, Afternoon1 *next)

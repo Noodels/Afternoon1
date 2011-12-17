@@ -7,7 +7,6 @@ int test_firstmicrocodes(Afternoon1 *state, Afternoon1 *next)
     afternoon1_setup(state, 32, 8);
     afternoon1_setup(next, 32, 8);
 
-    afternoon1_databus(state);
     afternoon1_step(state, next);
 
     if (next->MICROCODE == 0x02)
@@ -18,7 +17,6 @@ int test_firstmicrocodes(Afternoon1 *state, Afternoon1 *next)
         return 1;
     }
 
-    afternoon1_databus(next);
     afternoon1_step(next, state);
     
     if (state->MICROCODE == 0x03)

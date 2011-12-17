@@ -14,7 +14,7 @@ typedef struct
     unsigned int stack_size; // size of stack, minimum 4
 
     /* BUSES - Need to be updated before computation occurs */
-    uint8_t main_data_input; // 4 bits used
+    //uint8_t main_data_input; // 4 bits used, not in use
     // uint8_t main_databus; // Not used, use stackptr[0]
     
     /* Memory IO */
