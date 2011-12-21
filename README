@@ -1,0 +1,7 @@
+An emulator for the Afternoon1 processor, a minimalistic simple stack based processor designed one afternoon.
+
+The processor features:
+    4-bit stack items and instructions, allowing for 16 instructions
+    16-bit addressing
+    A cache of 16 16-bit words
+    Addition without the use of an ALU, instead using binary XOR, AND, SHIFTLEFT, and a special carry register
