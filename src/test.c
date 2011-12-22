@@ -4,6 +4,8 @@
 
 int test_firstmicrocodes(Afternoon1 *state, Afternoon1 *next)
 {
+    int i, j;
+
     afternoon1_setup(state, 32, 8);
     afternoon1_setup(next, 32, 8);
 
@@ -57,6 +59,64 @@ int test_firstmicrocodes(Afternoon1 *state, Afternoon1 *next)
                 state->stackptr[0],
                 state->stackptr[1],
                 state->stackptr[2]);
+        return 1;
+    }
+
+    afternoon1_step(state, next);
+    if (next->MICROCODE == 0x08)
+        printf("[PASS] Add 1 without carry\n");
+    else
+    {
+        printf("[FAIL] Branched to microcode 0x%x for adding without carry\n",
+                next->MICROCODE);
+        return 1;
+    }
+
+    afternoon1_step(next, state);
+    if (state->program_counter == (0x01 << 12))
+        printf("[PASS] PC Rotating correctly (#1)\n");
+    else
+    {
+        printf("[FAIL] PC rotated to 0x%.4x (#1)\n", state->program_counter);
+        return 1;
+    }
+
+    afternoon1_step(state, next);
+    afternoon1_step(next, state);
+    afternoon1_step(state, next);
+    afternoon1_step(next, state);
+    afternoon1_step(state, next);
+
+    if (next->MICROCODE == 0x0F)
+        printf("[PASS] Pausing for memory input\n");
+    else
+    {
+        printf("[FAIL] Not attaining memory wait loop, ending at 0x%.2x\n",
+                next->MICROCODE);
+        return 1;
+    }
+
+    next->memory_request = 0; // ready
+
+    afternoon1_step(next, state);
+    if (state->MICROCODE == 0x0E)
+        printf("[PASS] Branched out of wait loop\n");
+    else
+    {
+        printf("[FAIL] Incorrect wait loop exit: 0x%.2x\n", state->MICROCODE);
+        return 1;
+    }
+    
+    state->DATAIN = 0xDA00; // nop, nop, ldi, (D)
+    afternoon1_step(state, next);
+    afternoon1_step(next, state);
+
+    if (state->MICROCODE == 0x11)
+        printf("[PASS] Executing a NOP\n");
+    else
+    {
+        printf("[FAIL] Executing wrong instruction: 0x%.2x\n",
+                state->MICROCODE);
         return 1;
     }
 

@@ -11,6 +11,12 @@ void compute_codecache(Afternoon1 *state, Afternoon1 *next)
             next->program_cache[i] = state->program_cache[i+1];
         next->program_cache[3] = 0;
     }
+    else if (control_line(state, STORECODE))
+    {
+        for (i=0; i<4; i++)
+            next->program_cache[i] =
+                0x10 | (0xF & (state->DATAIN >> (i*4)));
+    }
     else
     {
         // no change, preserve state
